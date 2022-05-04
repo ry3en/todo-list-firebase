@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="vh-100" style="background-color: #2D4059;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card" id="list1" style="border-radius: .75rem; background-color: #DECDC3;">
+                    <div class="card-body py-4 px-4 px-md-5">
+
+                        <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+                            <i class="fas fa-check-square me-1"></i>
+                            <u style="color: #EA5455;">ToDo-List</u>
+                        </p>
+
+                        <div class="pb-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="d-flex flex-row align-items-center" method="post">
+                                        <input type="text" id="name" name="name" class="form-control form-control-lg my-input"
+                                               placeholder="Add new...">
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+
+                        <h4>Incompetas <span class="badge badge-info">{{response.counter2}}</span></h4>
+
+                        {% for task in response.incompleted %}
+                        <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+                            <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                                <div class="form-check d-flex align-items-center">
+                                    <span class="badge badge-pill badge-secondary"> {{task['id']}}  </span>
+                                </div>
+                            </li>
+
+
+
+                            <li class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                                <h1 class="lead fw-normal mb-0 text-center" name="name">{{task['name']}}</h1>
+                            </li>
+                            <li class=" list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                                <div class="col-2" >
+                                    <a href="update/{{task['id']}}">
+                                    <img src="static/img/icons8-unchecked-checkbox-50.png" alt="">
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                        {% endfor %}
+                        <hr class="my-4">
+                        <h4>Competas <span class="badge badge-info">{{response.counter1}}</span></h4>
+                        {% for task in response.completed %}
+                        <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+                            <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                                <div class="form-check d-flex align-items-center">
+                                    <span class="badge badge-pill badge-secondary"> {{task['id']}}  </span>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                                <h1 class="lead fw-normal mb-0 text-center" name="name">{{task['name']}}</h1>
+                            </li>
+                            <li class=" list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                                <div class="col-2" >
+                                    <a href="update/{{task['id']}}">
+                                    <img src="static/img/icons8-checked-checkbox-50.png" alt="">
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                                <a href="delete/{{task['id']}}">
+                                    <img src="static/img/icons8-trash-48.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
