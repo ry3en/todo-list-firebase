@@ -5,14 +5,14 @@ from firebase_admin import credentials, firestore
 import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'c933fcb17b67cdcd04c21ca4add5edd53a5eca23'
+app.config['SECRET_KEY'] = 'AIzaSyBm9-0qUx0uyFIfHi_uh9Ws6pOGrD3gJsk'
 # Configuraciones para firebase
 cred = credentials.Certificate('serviceAccountKey.json')
 fire = firebase_admin.initialize_app(cred)
 db = firestore.client()
 tasks_ref = db.collection('tasks')
 users_ref = db.collection('users')
-API_KEY = 'AIzaSyDpWOwvHcvnL3aamIZpUwvORgFaST8lI_4'
+API_KEY = 'AIzaSyBm9-0qUx0uyFIfHi_uh9Ws6pOGrD3gJsk'
 user_auth = False
 
 
@@ -66,7 +66,7 @@ def login():
         password = request.form["password"]
         print(f'{email}:{password}')
         try:
-            if email == 'linares@correo.com' and password == 'pass123':
+            if email == 'jose@correo.com' and password == 'con123':
                 print("Iniciaste sesión...")
                 user_auth = True
                 return redirect('/')
