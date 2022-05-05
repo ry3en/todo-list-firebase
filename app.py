@@ -5,6 +5,7 @@ from firebase_admin import credentials, firestore
 import datetime
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'AIzaSyBm9-0qUx0uyFIfHi_uh9Ws6pOGrD3gJsk'
 # Configuraciones para firebase
 cred = credentials.Certificate('serviceAccountKey.json')
@@ -61,10 +62,11 @@ def login():
     global user_auth
     if request.method == 'GET':
         return render_template('login.html')
+        print(f'{email}:{password}asd')
     else:  # POST
         email = request.form["email"]
         password = request.form["password"]
-        print(f'{email}:{password}')
+        print(f'{email}:{password}asd')
         try:
             if email == 'jose@correo.com' and password == 'con123':
                 print("Iniciaste sesión...")
