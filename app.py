@@ -3,6 +3,7 @@ import requests
 import firebase_admin
 from firebase_admin import credentials, firestore
 import datetime
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -11,10 +12,10 @@ app.config['SECRET_KEY'] = 'AIzaSyBm9-0qUx0uyFIfHi_uh9Ws6pOGrD3gJsk'
 cred = credentials.Certificate('serviceAccountKey.json')
 fire = firebase_admin.initialize_app(cred)
 db = firestore.client()
-tasks_ref = db.collection('tasks')
+# tasks_ref = db.collection('tasks')
 users_ref = db.collection('users')
+tasks_ref = users_ref.document('mauro').collection('tasks')
 API_KEY = 'AIzaSyBm9-0qUx0uyFIfHi_uh9Ws6pOGrD3gJsk'
-user_auth = False
 
 
 def login_firebase(email, password):
@@ -54,7 +55,7 @@ def update_task(ref, id):
 
 
 def delete_task(ref, id):
-    res = ref.document(id).delete()
+    ref = ref.document(id).delete()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -62,14 +63,12 @@ def login():
     global user_auth
     if request.method == 'GET':
         return render_template('login.html')
-        print(f'{email}:{password}asd')
     else:  # POST
         email = request.form["email"]
         password = request.form["password"]
-        print(f'{email}:{password}asd')
+        print(f'{email}:{password}')
         try:
             if email == 'jose@correo.com' and password == 'con123':
-                print("Iniciaste sesión...")
                 user_auth = True
                 return redirect('/')
             else:
@@ -80,8 +79,11 @@ def login():
             print("Sesion fallida...")
             flash('Credenciales invalidas')
             return redirect('/')
-
-
+@app.route('/logout', methods=['POST'])
+def logout():
+    global user_auth
+    user_auth = False
+    return redirect('/')
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -110,11 +112,6 @@ def home():
     else:  # POST
         name = request.form["name"]
         print(f"\n{name}\n")
-        try:
-            create_task(tasks_ref, name)
-            return redirect('/')
-        except:
-            return render_template('error.html', response='response')
 
 
 @app.route("/update/<string:id>", methods=['GET'])
@@ -139,5 +136,6 @@ def delete(id):
         return render_template('error.html', response='response')
 
 
+PORT = int(os.environ.get("PORT", 8080))
 if __name__ == '__main__':
     app.run(debug=True)
